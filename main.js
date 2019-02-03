@@ -1,12 +1,35 @@
-function elevator() {
+// Первое задание
 
-
+setTimeout(() => {
   // ---------------------------
-  const child = document.querySelector(".child");
-  let parent = child.parentNode;
-  const granPa = document.querySelector(".parent")
-  console.log(granPa.childNodes);
-  styleEdit(parent);
+  let child = document.querySelector(".deepChild");
+  let blockName = document.querySelector(".blockName");
+// функция для поднятия по дереву
+  function elevator(element){
+    let elementClass = element.getAttribute('class');
+    let parent = element.parentNode;
+    console.log(elementClass);
+
+    // перебираемся по дереву
+    if(elementClass != 'parent'){ setTimeout(()=>{
+          styleEdit(element);
+          elevator(parent);
+          out(element);
+                }, 600)
+    } else {
+      setTimeout(()=>{
+        console.log(parent);
+        styleEdit(element);
+        out(element);
+       }, 600)
+    }
+  }
+  elevator(child);
+
+//  выводим информацию в blockName
+  function out(element){
+    blockName.innerHTML = 'класс элемента: ' + element.className;
+  }
 
   // Изменяем стиль элемента
   function styleEdit(element) {
@@ -21,5 +44,4 @@ function elevator() {
     };
     element.style.backgroundColor = color();
   }
-}
-elevator();
+}, 300);
