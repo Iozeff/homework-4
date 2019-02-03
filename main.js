@@ -8,7 +8,6 @@ setTimeout(() => {
   function elevator(element){
     let elementClass = element.getAttribute('class');
     let parent = element.parentNode;
-    console.log(elementClass);
 
     // перебираемся по дереву
     if(elementClass != 'parent'){ setTimeout(()=>{
@@ -18,7 +17,6 @@ setTimeout(() => {
                 }, 600)
     } else {
       setTimeout(()=>{
-        console.log(parent);
         styleEdit(element);
         out(element);
        }, 600)
@@ -44,4 +42,54 @@ setTimeout(() => {
     };
     element.style.backgroundColor = color();
   }
+}, 300);
+
+
+// Второе задание
+setTimeout(() => {
+  let deepChild = document.querySelector(".secondQuest .parent .first .deepChild");
+
+// перебираемся наверх к sibling first и красим рамки в зеленый
+  function findParent(element){
+    let elementClass = element.getAttribute('class');
+    if(elementClass != 'sibling first'){
+      setTimeout(()=>{
+        let parent = element.parentNode;
+        element.style.border = '2px solid red';
+        findParent(parent);
+      }, 300);
+    }
+    else {
+      element.style.border = '2px solid red';
+      console.log(element);
+      element.nextSibling.nextSibling.style.border = '2px solid green'
+      findChild(element.nextSibling.nextSibling);
+    }
+  }
+
+
+  // поиск детей
+  function findChild(element){
+    let child = findDiv(element)[0];
+    let elementClass = child.getAttribute('class');
+    //покраска границ
+    if(elementClass != 'deepChild'){
+      setTimeout(()=>{
+        element.style.border = '2px solid green';
+        findChild(child);
+      }, 300);
+    }
+    else {
+      console.log(element);
+      // element.style.backgroundColor = 'green';
+      element.style.border = '2px solid green';
+      console.log('finish');
+    }
+
+  }
+  function findDiv(element){
+    const collection = Array.from(element.childNodes);
+    return collection.filter(c => c.tagName === 'DIV')
+  }
+  findParent(deepChild);
 }, 300);
